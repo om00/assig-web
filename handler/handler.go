@@ -2,12 +2,13 @@ package handler
 
 import (
 	"encoding/json"
-	"github/om00/assig-web/models"
-	"github/om00/assig-web/psqldb"
 	"html/template"
 	"io/ioutil"
 	"net/http"
 	"strings"
+
+	"github.com/om00/assig-web/models"
+	"github.com/om00/assig-web/psqldb"
 )
 
 type App struct {
