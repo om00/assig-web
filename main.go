@@ -66,7 +66,8 @@ func main() {
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("app/static-file"))))
 
 	// Route handlers
-	http.HandleFunc("/", app.ShowAllUser)
+	http.HandleFunc("/", app.Login)
+	http.HandleFunc("/home", app.ShowAllUser)
 	http.HandleFunc("/login", app.HandleLogin)
 	http.HandleFunc("/block-user", app.BlockUser)
 	http.HandleFunc("/unblock-user", app.UnblockUser)

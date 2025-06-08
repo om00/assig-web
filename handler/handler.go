@@ -178,3 +178,13 @@ func (app *App) UnblockUser(w http.ResponseWriter, r *http.Request) {
 	}
 	json.NewEncoder(w).Encode(response)
 }
+
+func (app *App) Login(w http.ResponseWriter, r *http.Request) {
+	tmpl, err := template.ParseFiles("app/webpage/adminLogin.html")
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	tmpl.Execute(w, "")
+}
