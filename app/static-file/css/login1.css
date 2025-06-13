@@ -1,12 +1,74 @@
+/* General body styling */
 body {
-    background-color: #f8f9fa;
-    display:flex;
+    background: linear-gradient(to right, #6a11cb, #2575fc);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    height: 100vh;
+    margin: 0;
+    display: flex;
     align-items: center;
     justify-content: center;
-    height: 100vh;
 }
 
-.card{
-    border-radius: 20%;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+/* Container for login */
+/* .login {
+    width: 100%;
+    max-width: 400px;
+    padding: 15px;
+} */
+
+/* Card styling */
+.card {
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+}
+
+/* Header */
+.card h3 {
+    color: #333;
+    font-weight: bold;
+}
+
+/* Form input fields */
+.form-control {
+    border-radius: 10px;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    transition: border-color 0.3s;
+}
+
+.form-control:focus {
+    border-color: #2575fc;
+    box-shadow: 0 0 0 0.2rem rgba(37, 117, 252, 0.25);
+}
+
+/* Checkbox alignment fix */
+.form-check-input {
+    margin-top: 0.3rem;
+}
+
+/* Button styling */
+.btn.primary {
+    background-color: #2575fc;
+    border: none;
+    color: white;
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    transition: background-color 0.3s;
+}
+
+.btn.primary:hover {
+    background-color: #1a5bd0;
+}
+
+/* Forgot password link */
+a {
+    text-decoration: none;
+    color: #2575fc;
+}
+
+a:hover {
+    text-decoration: underline;
 }
