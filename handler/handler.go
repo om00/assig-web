@@ -9,6 +9,7 @@ import (
 
 	"github.com/om00/assig-web/models"
 	"github.com/om00/assig-web/psqldb"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type App struct {
@@ -17,27 +18,46 @@ type App struct {
 
 func (app *App) HandleLogin(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
-		username := r.FormValue("username")
-		password := r.FormValue("password")
 
-		name := "om"
-		dbPassword := "om12345"
+		var loginData models.AdminCred
+		res := make(map[string]string)
+		w.Header().Set("Content-type", "application/json")
 
-		// Check if the user exists and password is correct
-		// var dbPassword string
-		// err := db.QueryRow("SELECT password FROM users WHERE username = $1", username).Scan(&dbPassword)
-		// if err != nil {
-		// 	http.Error(w, "User not found", http.StatusUnauthorized)
-		// 	return
-		// }
-
-		if username == name && password == dbPassword {
-			// If credentials are correct
-			http.Redirect(w, r, "/dashboard", http.StatusFound)
-		} else {
-			// Incorrect password
-			http.Error(w, "Invalid username or password", http.StatusUnauthorized)
+		err := json.NewDecoder(r.Body).Decode(&loginData)
+		if err != nil {
+			res["message"] = err.Error()
+			w.WriteHeader(http.StatusBadRequest)
+			json.NewEncoder(w).Encode(res)
+			return
 		}
+
+		admin, err := app.Db.GetAdmin(loginData)
+		if err != nil {
+			res["message"] = err.Error()
+			w.WriteHeader(http.StatusInternalServerError)
+			json.NewEncoder(w).Encode(res)
+		}
+
+		if err != nil && admin.Id == 0 {
+			res["message"] = "Wrong Username .Please Enter valid username"
+			w.WriteHeader(http.StatusBadRequest)
+			json.NewEncoder(w).Encode(res)
+		}
+
+		err = bcrypt.CompareHashAndPassword([]byte(admin.Password), []byte(loginData.Password))
+		if err != nil {
+			res["message"] = "Wrong Password. Please Enter a Valid password"
+			w.WriteHeader(http.StatusUnauthorized)
+			json.NewEncoder(w).Encode(res)
+		}
+
+		userData, tmpl, err := app.ShowUserPage(models.UserRequest{})
+		if err != nil {
+			res["message"] = err.Error()
+			w.WriteHeader(http.StatusInternalServerError)
+			json.NewEncoder(w).Encode(res)
+		}
+		tmpl.Execute(w, userData)
 	}
 }
 

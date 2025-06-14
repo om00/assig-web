@@ -40,6 +40,19 @@ type UserRequest struct {
 	PhoneStr           string   `json:"phone"`
 }
 
+type AdminCred struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
+}
+
+type Admin struct {
+	Id          int64  `json:"id"`
+	Name        string `json:"name"`
+	Email       string `json:"email"`
+	Password    string `json:"password"`
+	PhoneNumber string `json:"phoneNumber"`
+}
+
 func (req *UserRequest) HandleIntFields() error {
 	if req.ReasonCode != "" {
 		code, err := strconv.Atoi(req.ReasonCode)
